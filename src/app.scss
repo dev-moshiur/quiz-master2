@@ -1,0 +1,12 @@
+.App {
+  width: 100%;
+  height: 100vh;
+
+  background: url(./backgroung.jpg);
+  background-size: contain;
+  .pages {
+    width: 100%;
+    display: flex;
+    height: calc(100% - 70px);
+  }
+}
