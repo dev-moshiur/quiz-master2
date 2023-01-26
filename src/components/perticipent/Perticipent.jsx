@@ -3,12 +3,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Quize from "../quize/Quize";
 import { useData } from "../../context";
+import {KeyboardArrowLeft,KeyboardArrowRight,Timer} from '@material-ui/icons'
 import ExecutedQuiz from "../executedQuiz/ExecutedQuiz";
 export default function Perticipent() {
   const { data, dispatch } = useData();
   const [questionIndex, setquestionIndex] = useState(0);
+  const [time, setTime] = useState(150)
   const [completeExam, setcompleteExam] = useState(false);
-  const [time, settime] = useState();
+  
   const [writeAnswer, setwriteAnswer] = useState(0);
   const server = `https://quiz-app-api-nine.vercel.app`;
   const changeIndex = (direction) => {
@@ -26,6 +28,8 @@ export default function Perticipent() {
       }
     }
   };
+  
+  
   const execuate = () => {
     data.examQuestion.forEach((item) => {
       if (item.correctAnswer && item.answer) {
@@ -48,6 +52,7 @@ export default function Perticipent() {
       .then((res) => res.json())
       .then((data) => {
         procesData(data);
+        
       });
   }, []);
 
@@ -61,7 +66,7 @@ export default function Perticipent() {
                 data.examQuestion.length > 0 ? data.examQuestion.length : ""
               }`}
             </div>
-            <div className="point">Time.....</div>
+            <div className="point"><Timer/> <span>{Math.floor(time/60)} : {time%60}</span></div>
           </div>
           <div className="quizeContainer">
             {data.examQuestion[questionIndex] && (
@@ -72,11 +77,9 @@ export default function Perticipent() {
             )}
           </div>
           <div className="buttons">
-            <button onClick={() => changeIndex("previous")}>Previous</button>
-            <button onClick={() => changeIndex("next")}>Next</button>
-          </div>
-          <div className="submit" onClick={() => execuate()}>
-            Submit This Examination
+            <button onClick={() => changeIndex("previous")}><KeyboardArrowLeft/></button>
+            <button onClick={() => changeIndex("next")}><KeyboardArrowRight/></button>
+            <div  onClick={() => execuate()}>Finish</div>
           </div>
         </div>
       )}
